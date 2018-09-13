@@ -1,99 +1,122 @@
 // Get references to page elements
-var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
-var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+var $questionText = $("#question-text");
+var $submitQuestionBtn = $("#submitQuestion");
+var $hostBtn = $("#host");
+var $playerBtn = $("#player");
+var $hostSubBtn = $("#submitHost");
+var $playerSubBtn = $("#submitPlayer");
+var $startGameBtn = $("#startGameBtn");
+var $submitAnswers = $("#submitAnswers");
+var hostName;
+var playerName;
+var gameTitle;
+var timeLeft = 30;
 
-// The API object contains methods for each kind of request we'll make
-var API = {
-  saveExample: function(example) {
-    return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
-      type: "POST",
-      url: "api/examples",
-      data: JSON.stringify(example)
-    });
-  },
-  getExamples: function() {
-    return $.ajax({
-      url: "api/examples",
-      type: "GET"
-    });
-  },
-  deleteExample: function(id) {
-    return $.ajax({
-      url: "api/examples/" + id,
-      type: "DELETE"
-    });
-  }
-};
-
-// refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
-      var $a = $("<a>")
-        .text(example.text)
-        .attr("href", "/example/" + example.id);
-
-      var $li = $("<li>")
-        .attr({
-          class: "list-group-item",
-          "data-id": example.id
-        })
-        .append($a);
-
-      var $button = $("<button>")
-        .addClass("btn btn-danger float-right delete")
-        .text("ｘ");
-
-      $li.append($button);
-
-      return $li;
-    });
-
-    $exampleList.empty();
-    $exampleList.append($examples);
-  });
-};
-
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-var handleFormSubmit = function(event) {
+var submitNewQuestion = function(event) {
   event.preventDefault();
-
-  var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
+  var newQuestion = {
+    text: $questionText.val().trim(),
   };
-
-  if (!(example.text && example.description)) {
-    alert("You must enter an example text and description!");
+  if (!(newQuestion.text)) {
+    alert("Nice try but submit a real question");
     return;
   }
-
-  API.saveExample(example).then(function() {
-    refreshExamples();
-  });
-
-  $exampleText.val("");
-  $exampleDescription.val("");
+  $questionText.val("");
+  alert("Question submitted. Thanks!")
 };
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
-var handleDeleteBtnClick = function() {
-  var idToDelete = $(this)
-    .parent()
-    .attr("data-id");
+function hideInitialInfo() {
+  document.getElementById("initialButtonsandInfo").style.display = "none" ;
+}
 
-  API.deleteExample(idToDelete).then(function() {
-    refreshExamples();
-  });
-};
+function initWaiting() {
+  if (hostName) {
+    alert("you're the host!");
+    document.getElementById("playerWaitingBlock").style.display = "block";
+    $("#currentPlayers").append('<li>' + hostName + '</li>');
+    $("#displayGameTitle").text(gameTitle);
+  } else {
+    alert("you're a player!");
+    document.getElementById("playerWaitingBlock").style.display = "block";
+    document.getElementById("startGameBtn").style.display = "none";
+    $("#currentPlayers").append('<li>' + playerName + '</li>');
+    $("#displayGameTitle").text(gameTitle);
+  }
+}
 
-// Add event listeners to the submit and delete buttons
-$submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
+var revealHostInfo = function(event) {
+  event.preventDefault;
+  document.getElementById("playerInfoBlock").style.display = "none" ;
+  document.getElementById("hostInfoBlock").style.display = "block" ;
+}
+
+var revealPlayerInfo = function(event) {
+  event.preventDefault;
+  document.getElementById("playerInfoBlock").style.display = "block" ;
+  document.getElementById("hostInfoBlock").style.display = "none" ;
+}
+
+var submitHost = function(event) {
+  event.preventDefault;
+  hostName = $("#hostName").val().trim();
+  localStorage.name = hostName;
+  gameTitle = $("#hostGameTitle").val().trim();
+  hideInitialInfo();
+  alert("Hosting Game As " + hostName)
+  initWaiting();
+}
+
+var submitPlayer = function(event) {
+  event.preventDefault;
+  playerName = $("#playerName").val().trim();
+  localStorage.name = playerName;
+  gameTitle = $("#playerGameTitle").val().trim();
+  hideInitialInfo();
+  alert("Joining Game As " + playerName)
+  initWaiting();
+}
+
+var startGame = function(event) {
+  event.preventDefault;
+  alert("button works");
+  document.getElementById("playerWaitingBlock").style.display = "none";
+  document.getElementById("gameQuestion").style.display = "block" ;
+  startTimer();
+  decrement();
+}
+
+var submitAnswers = function(event) {
+ event.preventDefault;
+ var answerOne = $("#answerOne").val().trim();
+ var answerTwo = $("#answerTwo").val().trim();
+ localStorage.answerOne = answerOne;
+ localStorage.answerTwo = answerTwo;
+}
+
+function startTimer() {
+  intervalId = setInterval(decrement, 1000);
+}
+
+function decrement() {
+  timeLeft--;
+  $("#time-left").text("Time Left: " + timeLeft);
+  if (timeLeft === 0) {
+      stop();
+      outOfTime();
+  }
+}
+
+function stop() {
+  clearInterval(intervalId);
+}
+
+$submitAnswers.on("click", submitAnswers);
+$startGameBtn.on("click", startGame);
+
+$hostSubBtn.on("click", submitHost);
+$playerSubBtn.on("click", submitPlayer);
+
+$hostBtn.on("click", revealHostInfo);
+$playerBtn.on("click", revealPlayerInfo);
+
+$submitQuestionBtn.on("click", submitNewQuestion);

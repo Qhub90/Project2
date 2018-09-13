@@ -14,6 +14,7 @@ var timeLeft = 30;
 
 var submitNewQuestion = function(event) {
   event.preventDefault();
+
   var newQuestion = {
     text: $questionText.val().trim(),
   };
@@ -22,6 +23,16 @@ var submitNewQuestion = function(event) {
     return;
   }
   $questionText.val("");
+  $.ajax("/api/questions/" + id, {
+    type: "PUT",
+    data: newDevouredState
+  }).then(
+    function() {
+      console.log("submitted question");
+      //Display Updated lists
+      location.reload();
+    }
+  );
   alert("Question submitted. Thanks!")
 };
 

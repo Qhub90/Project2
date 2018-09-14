@@ -13,6 +13,21 @@
                     <h1>Funny Guy!</h1>
                     <h2>So, you think you're a Funny Guy?</h2>
                     <h2>PROVE IT</h2>
+                    <br>
+                    <div class="container" id="votingBlock">
+                        <h5 id="voting-time-left"></h5>
+                        <h3 id="questionHeader">test</h3>
+                        <div class="row">
+                            <div class="col sm-2" id="answerOneBlock">
+                                <h3 id="answerOneDisplay"></h3>
+                                <button id="answerOneButton">VOTE</button>
+                            </div>
+                            <div class="col sm-4" id="answerTwoBlock">
+                                <h3 id="answerTwoDisplay"></h3>
+                                <button id="answerTwoButton">VOTE</button>
+                            </div>
+                        </div>
+                    </div>
                 </center>
                 <div class="row" id="playerWaitingBlock">
                     <div class="col sm-6">
@@ -30,20 +45,20 @@
                         </ul>
                     </div>
                 </div>
-                <div id="gameQuestion">
-                        <center>
-                            <h5> Time to Answer Questions! </h5>
-                        </center>
-                            <h5 id="time-left"></h5>
-                        <label for="question1">What's the Strangest Place you've made whoopie?</label>
-                        <textarea class="form-control" id="answerOne" placeholder="Question 1"></textarea>
-                        <br>
-                        <label for="question2">Your Favorite Food?</label>
-                        <textarea class="form-control" id="answerTwo" placeholder="Question 2"></textarea>
-                        <br>
-                        <center>
-                            <button id="submitAnswers" class="btn btn-primary">Submit</button>
-                        </center>
+                <div id="answerQuestions">
+                    <center>
+                        <h5> Time to Answer Questions! </h5>
+                    </center>
+                    <h5 id="time-left"></h5>
+                    <label id="question1">What's the Strangest Place you've made whoopie?</label>
+                    <textarea class="form-control" id="answerOne" placeholder="Question 1"></textarea>
+                    <br>
+                    <label id="question2">Your Favorite Food?</label>
+                    <textarea class="form-control" id="answerTwo" placeholder="Question 2"></textarea>
+                    <br>
+                    <center>
+                        <button id="submitAnswers" class="btn btn-primary">Submit</button>
+                    </center>
                 </div>
                 <div id="initialButtonsandInfo">
                     <button id="host" class="btn btn-primary">HOST A GAME</button>

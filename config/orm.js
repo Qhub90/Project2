@@ -37,7 +37,7 @@ function objToSql(ob) {
 }
 
 // Object for all our SQL statement functions.
-var Qorm = {
+var orm = {
   all: function(tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
     connection.query(queryString, function(err, result) {
@@ -100,5 +100,5 @@ var Qorm = {
   }
 };
 
-// Export the Qorm object for the model (cat.js).
-module.exports = Qorm;
+// Export the orm object for the model.
+module.exports = orm;

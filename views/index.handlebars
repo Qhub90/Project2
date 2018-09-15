@@ -1,86 +1,22 @@
-<div id="home">
-    <div class="container">
-        <div class="row">
-            <div class="col-8 offset-2">
-                <center>
-                    <h1>Funny Guy!</h1>
-                    <h2>So, you think you're a Funny Guy?</h2>
-                    <h2>PROVE IT</h2>
-                </center>
-                <div class="row" id="playerWaitingBlock">
-                    <div class="col sm-6">
-                        <center>
-                            <h1> Game Title:</h1>
-                            <h1 id="displayGameTitle"></h1>
-                            <button id="startGameBtn" class="btn btn-primary">Start Game!</button>
-                        </center>
-                    </div>
-
-                    <div class="col sm-6" id="currentPlayers">
-                        <h1>Current Players</h1>
-                        <hr>
-                        <ul id="currentPlayers">
-                        </ul>
-                    </div>
-                </div>
-                <div id="gameQuestion">
-                        <center>
-                            <h5> Time to Answer Questions! </h5>
-                        </center>
-                            <h5 id="time-left"></h5>
-                        <label for="question1">What's the Strangest Place you've made whoopie?</label>
-                        <textarea class="form-control" id="answerOne" placeholder="Question 1"></textarea>
-                        <br>
-                        <label for="question2">Your Favorite Food?</label>
-                        <textarea class="form-control" id="answerTwo" placeholder="Question 2"></textarea>
-                        <br>
-                        <center>
-                            <button id="submitAnswers" class="btn btn-primary">Submit</button>
-                        </center>
-                </div>
-                <div id="initialButtonsandInfo">
-                    <button id="host" class="btn btn-primary">HOST A GAME</button>
-                    <button id="player" class="btn btn-primary float-right">JOIN A GAME</button>
-                    <br>
-
-                    <div class="form-group" id="hostInfoBlock">
-                        <label for="hostName">Enter your name</label>
-                        <input type="text" id="hostName" class="form-control" placeholder="Your Name Here, Funny Guy!">
-                        <br>
-                        <label for="gameTitle">Name your Game!</label>
-                        <input type="text" id="hostGameTitle" class="form-control" placeholder="Title Name">
-                        <br>
-                        <center>
-                            <button id="submitHost" class="btn btn-primary">HOST</button>
-                        </center>
-                    </div>
-
-                    <div class="form-group" id="playerInfoBlock">
-                        <label for="playerName">Enter your name</label>
-                        <input type="text" id="playerName" class="form-control" placeholder="Your Name Here, Funny Guy!">
-                        <br>
-                        <label for="gameTitle">What Game are you Joining?</label>
-                        <input type="text" id="playerGameTitle" class="form-control" placeholder="Game Title Here">
-                        <br>
-                        <center>
-                            <button id="submitPlayer" class="btn btn-primary float-center">JOIN</button>
-                        </center>
-                    </div>
-                    <br>
-
-                    <div class="form-group" id="submitQBlock">
-                        <center>
-                            <h5> Have an idea for a question?<br> Submit Below!
-                            </h5>
-                        </center>
-                        <label for="question-submit">Enter a question:</label>
-                        <textarea class="form-control" id="question-text" placeholder="And don't forget to make it funny!"></textarea>
-                    </div>
-                    <center>
-                        <button id="submitQuestion" class="btn btn-primary">Submit</button>
-                    </center>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col sm-6">
+            <div id="initialButtonsandInfo">
+                <button id="setup" class="btn btn-primary">Game Setup</button>
+                <br>
             </div>
+            <div class="form-group" id="submitQBlock">
+                <center>
+                    <h5> Have an idea for a question?<br> Submit Below!
+                    </h5>
+                </center>
+                <label for="question-submit">Enter a question:</label>
+                <textarea class="form-control" id="question-text" placeholder="And don't forget to make it funny!"></textarea>
+            </div>
+            <center>
+                <button id="submitQuestion" class="btn btn-primary">Submit</button>
+            </center>
         </div>
     </div>
 </div>
+<script src="/assets/js/index.js"></script>

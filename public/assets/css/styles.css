@@ -1,0 +1,11 @@
+.list-group-item {
+    line-height: 2.5;
+  }
+  
+  #hostInfoBlock {
+  display:none;
+  }
+  
+  #gameQuestion {
+    display: none;
+  }

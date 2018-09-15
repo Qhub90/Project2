@@ -10,6 +10,10 @@ router.get("/game/", function(req, res) {
     res.render("game");
 });
 
+router.post("api/game/:id", function(req, res) {
+    question.create(["question", ])
+}
+
 
 
 

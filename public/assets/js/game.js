@@ -1,3 +1,15 @@
+// button variables
+
+var $questionText = $("#question-text");
+var $submitQuestionBtn = $("#submitQuestion");
+var $setupBtn = $("#setup")
+var $hostBtn = $("#host");
+var $playerBtn = $("#player");
+var $hostSubBtn = $("#submitHost");
+var $playerSubBtn = $("#submitPlayer");
+var $startGameBtn = $("#startGameBtn");
+var $submitAnswers = $("#submitAnswers");
+
 // changing the page into the 'waiting for players' state
 // alerts for testing purposes
 

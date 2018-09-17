@@ -9,11 +9,14 @@ module.exports = function(app) {
     });
   });
   
-
-  // Create a new example
+  // Post route for adding new question to db
   app.post("/api/questions", function(req, res) {
-    db.Author.create(req.body).then(function(dbQuestions) {
-      res.json(dbQuestions);
-    });
+    console.log(req.body);
+    db.Question.create({
+      quest_text: req.body.quest_text,
+    })
+      .then(function(dbPost) {
+        res.json(dbPost);
+      });
   });
 };

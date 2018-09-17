@@ -4,12 +4,8 @@
 
 var $questionText = $("#question-text");
 var $submitQuestionBtn = $("#submitQuestion");
+var $questionForm = $("#QBlock")
 var $setupBtn = $("#setup");
-// var $hostBtn = $("#host");
-// var $playerBtn = $("#player");
-// var $hostSubBtn = $("#submitHost");
-// var $playerSubBtn = $("#submitPlayer");
-// var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
 
 // blank variables we're going to define in functions
@@ -49,7 +45,23 @@ var submitNewQuestion = function (event) {
   }
   $questionText.val("");
   alert("Question submitted. Thanks!")
+
+  // Constructing a newPost object to hand to the database
+  var newQuestion = {
+    quest_text: $questionText.val().trim()
+    };
+  
+  console.log(newQuestion);
+
+  submitQuestion(newQuestion);
 };
+
+// Submits a new quesion and brings user to blog page upon completion
+function submitQuestion(Question) {
+  $.post("/api/questions/", Question, function() {
+  window.location.href = "/";
+  });
+}
 
 // hiding the initial buttons and submit question block when the page is
 // 'waiting for players' or playing the game
@@ -97,21 +109,6 @@ function answersToVoting() {
   document.getElementById("answerQuestions").style.display = "none";
   document.getElementById("votingBlock").style.display = "block";
 }
-
-function setup() {
-  var views = {};
-  $("#setup").click(function display_template(tmpl, data) {
-      jQuery.get("../../../game", function(resp) {
-          console.log(resp);
-          var template = Handlebars.compile(resp);
-          template({});
-          // $("#mainBody").html(resp);
-      });
-      // display_template(tmpl, data);
-      return;
-  })
-
-};
 
 //simple start timer function
 
@@ -173,8 +170,6 @@ function counterCheck() {
       alert("GAME OVER!")
   }
 }
-
-setup();
 
 //EVENT HANDLERS
 

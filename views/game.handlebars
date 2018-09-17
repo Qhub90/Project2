@@ -9,15 +9,18 @@
     <div class="container" id="votingBlock">
         <center>
             <h5 id="voting-time-left"></h5>
-            <h3 id="questionHeader">What is your favorite food?</h3>
+            <h3 id="questionHeader" class="w3-animate-opacity">What is your favorite food?</h3>
             <div class="row">
-                <div class="col sm-2" id="answerOneBlock" class="answerBlocks">
+                <div class="col sm-2 w3-animate-left" id="answerOneBlock" class="answerBlocks">
                     <h3 id="answerOneDisplay">sample text</h3>
-                    <button id="answerOneButton" class="button">VOTE</button>
+                    <button id="answerOneVote" class="button">VOTE</button>
+                    <h3 id="voteOneSubDisplay">VOTED &check;</h3>
                 </div>
-                <div class="col sm-4" id="answerTwoBlock">
+                <div class="col sm-4 w3-animate-right" id="answerTwoBlock">
                     <h3 id="answerTwoDisplay">sample text</h3>
-                    <button id="answerTwoButton" class="button">VOTE</button>
+                    <button id="answerTwoVote" class="button">VOTE</button>
+                    <h3 id="voteTwoSubDisplay">VOTED &check;</h3>
+
         </center>
         </div>
         </div>
@@ -48,6 +51,7 @@
                         <textarea class="form-control" id="answerTwo" placeholder="Question 2"></textarea>
                         <br>
                         <button id="submitAnswers" class="button">Submit</button>
+                        <h3 id="answerSubAlert">ANSWERS SUBMITTED &check;</h3>
                     </center>
                 </div>
                 <div id="initialButtonsandInfo">

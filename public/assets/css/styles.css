@@ -114,6 +114,7 @@ label {
   margin: 20px;
   padding-bottom: 15px;
   padding-top: 15px;
+  animation-timing-function: ease-in-out;
 }
 
 #currentPlayers {
@@ -123,4 +124,18 @@ label {
 #questionHeader, h5 {
   font-size: 50px;
   color:white;
+}
+
+#answerSubAlert {
+  color: green;
+  display:none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#voteOneSubDisplay, #voteTwoSubDisplay {
+  color:green;
+  display:none;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

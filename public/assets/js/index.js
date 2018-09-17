@@ -1,50 +1,15 @@
-
 // VARIABLES
-
-// The API object contains methods for each kind of request we'll make
-var API = {
-  saveQuestion: function(question) {
-    return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
-      type: "POST",
-      url: "api/questions",
-      data: JSON.stringify(question)
-    });
-  }
-};
-
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-var submitNewQuestion = function(event) {
-  event.preventDefault();
-
-  var question = {
-    quest_text: $questionText.val().trim(),
-  };
-
-  if (!(question.quest_text)) {
-    alert("You must enter a question!");
-    return;
-  }
-
-  API.saveQuestion(question)
-
-  $questionText.val("");
-  console.log("submitted Q to db");
-};
 
 // button variables
 
 var $questionText = $("#question-text");
 var $submitQuestionBtn = $("#submitQuestion");
-var $setupBtn = $("#setup")
-var $hostBtn = $("#host");
-var $playerBtn = $("#player");
-var $hostSubBtn = $("#submitHost");
-var $playerSubBtn = $("#submitPlayer");
-var $startGameBtn = $("#startGameBtn");
+var $setupBtn = $("#setup");
+// var $hostBtn = $("#host");
+// var $playerBtn = $("#player");
+// var $hostSubBtn = $("#submitHost");
+// var $playerSubBtn = $("#submitPlayer");
+// var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
 
 // blank variables we're going to define in functions
@@ -73,6 +38,18 @@ counter = 0;
 
 // function to submit a new question to our database
 
+var submitNewQuestion = function (event) {
+  event.preventDefault();
+  var newQuestion = {
+    text: $questionText.val().trim(),
+  };
+  if (!(newQuestion.text)) {
+    alert("Nice try but submit a real question");
+    return;
+  }
+  $questionText.val("");
+  alert("Question submitted. Thanks!")
+};
 
 // hiding the initial buttons and submit question block when the page is
 // 'waiting for players' or playing the game
@@ -82,18 +59,6 @@ function hideInitialInfo() {
 }
 
 // revealing the 'name' and 'game title' submit options for host and player separately
-
-var revealHostInfo = function (event) {
-  event.preventDefault;
-  document.getElementById("playerInfoBlock").style.display = "none";
-  document.getElementById("hostInfoBlock").style.display = "block";
-}
-
-var revealPlayerInfo = function (event) {
-  event.preventDefault;
-  document.getElementById("playerInfoBlock").style.display = "block";
-  document.getElementById("hostInfoBlock").style.display = "none";
-}
 
 // the individual submit options for host and player to capture
 // player name and game title
@@ -132,6 +97,21 @@ function answersToVoting() {
   document.getElementById("answerQuestions").style.display = "none";
   document.getElementById("votingBlock").style.display = "block";
 }
+
+function setup() {
+  var views = {};
+  $("#setup").click(function display_template(tmpl, data) {
+      jQuery.get("../../../game", function(resp) {
+          console.log(resp);
+          var template = Handlebars.compile(resp);
+          template({});
+          // $("#mainBody").html(resp);
+      });
+      // display_template(tmpl, data);
+      return;
+  })
+
+};
 
 //simple start timer function
 
@@ -194,9 +174,12 @@ function counterCheck() {
   }
 }
 
+setup();
+
 //EVENT HANDLERS
 
 $setupBtn.on("click", setup)
 $submitAnswers.on("click", submitAnswers);
 $submitQuestionBtn.on("click", submitNewQuestion);
+
 

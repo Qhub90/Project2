@@ -29,3 +29,5 @@ INSERT INTO questions (quest_text) VALUES ("You'd think by now Target would carr
 INSERT INTO questions (quest_text) VALUES ("Retailers are still undecided on whether to sell soap that smells like _____.");
 INSERT INTO questions (quest_text) VALUES ("Our exhaustive research has concluded that _____ champion athlete _____ would be an excellent spokesman for _____.");
 INSERT INTO questions (quest_text) VALUES ("Did you read the USA Today report that Depends undergarments can also be used to _____?");
+INSERT INTO questions (quest_text) VALUES ("Did you read the USA Today report that Depends undergarments can also be used to _____?");
+

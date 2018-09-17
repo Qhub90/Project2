@@ -9,3 +9,118 @@
   #gameQuestion {
     display: none;
   }
+
+  #playerWaitingBlock {
+    display: none;
+    height: 100%;
+    background-image: url(../images/header.png);
+    color:white;
+    border-radius: 30px;
+    padding-left:20px;
+  }
+
+  #answerQuestions {
+    background-image: url(../images/header.png);
+    border-radius: 30px;
+    color:white;
+    display: none;
+  }
+
+  #votingBlock {
+    display: none;  
+  }
+
+  .header {
+    color: white;
+  }
+
+  body {
+    font-size: 30px;
+    background: linear-gradient(purple, darkblue );
+    height:100%;
+    font-size: 35px;
+  }
+
+  html {
+    height: 100%
+  }
+
+  h1 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 75px;
+  }
+
+  .italics {
+    font-style: italic;
+  }
+
+  .header {
+    background-image: url(../images/header.png)
+  }
+  
+.button span {
+  background: #FFF;
+  display: block;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: 2px solid #000;
+}
+.button:hover {
+  box-shadow: 0 2px 0 #000, 0 2px 0px 2px blue;
+}
+.button:active {
+  top: 4px;
+  padding-bottom: 3px;
+  box-shadow: 0 1px 0 #000;
+}
+.button {
+  background-color:#3300FF;
+  position: relative;
+  /* float: left; */
+  font-size: 25px;
+  font-family: 'Patrick Hand SC', cursive;
+  text-transform: uppercase;
+  color: white;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #000;
+  transition: padding 0.1s, box-shadow 0.1s, top 0.1s;
+}
+
+#initialButtonsandInfo{
+  background-image: url(../images/header.png);
+  border-radius: 30px;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:20px;
+}
+
+.form-control {
+  width: 50%;
+  border: 2px solid black;
+}
+
+label {
+  color:white;
+  padding: 2px 5px;
+}
+
+#answerOneBlock, #answerTwoBlock {
+  background-image: url(../images/header.png);
+  color: white;
+  border: 2px solid black;
+  border-radius: 30px;
+  margin: 20px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+#currentPlayers {
+  color:white;
+}
+
+#questionHeader, h5 {
+  font-size: 50px;
+  color:white;
+}

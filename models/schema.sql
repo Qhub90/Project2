@@ -6,10 +6,10 @@ CREATE TABLE questions (
     quest_text VARCHAR(255) NOT NULL,
     blanks INT NOT NULL DEFAULT 1,
     tag1 VARCHAR(64) NOT NULL,
-    tag2 VARCHAR(64) DEFAULT "",
-    tag3 VARCHAR(64) DEFAULT "",
-    tag4 VARCHAR(64) DEFAULT "",
-    tag5 VARCHAR(64) DEFAULT "",
+    tag2 VARCHAR(64) DEFAULT '',
+    tag3 VARCHAR(64) DEFAULT '',
+    tag4 VARCHAR(64) DEFAULT '',
+    tag5 VARCHAR(64) DEFAULT '',
     PRIMARY KEY (id)
 );
 

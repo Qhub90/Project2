@@ -1,67 +1,87 @@
-<div class="container">
-    <div class="row">
-        <div class="col sm-6">            
-            <div class="row" id="playerWaitingBlock">
-                <div class="col sm-6">
-                    <center>
-                        <h1> Game Title:</h1>
-                        <h1 id="displayGameTitle"></h1>
-                    </center>
+<body>
+    <div class="header">
+        <center>
+            <h1 class="logo"> Funny Guy! </h1>
+            <h2 class="italics">So, you think you're a Funny Guy?</h2>
+            <hr>
+    </div>
+    </center>
+    <div class="container" id="votingBlock">
+        <center>
+            <h5 id="voting-time-left"></h5>
+            <h3 id="questionHeader">What is your favorite food?</h3>
+            <div class="row">
+                <div class="col sm-2" id="answerOneBlock" class="answerBlocks">
+                    <h3 id="answerOneDisplay">sample text</h3>
+                    <button id="answerOneButton" class="button">VOTE</button>
                 </div>
+                <div class="col sm-4" id="answerTwoBlock">
+                    <h3 id="answerTwoDisplay">sample text</h3>
+                    <button id="answerTwoButton" class="button">VOTE</button>
+        </center>
+        </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col sm-6">
+                <div class="row" id="playerWaitingBlock">
+                    <center>
+                        <h2> Game Title:</h2>
+                        <h2 id="displayGameTitle"></h2>
+                        <button id="startGameBtn" class="button">Start Game!</button>
+                    </center>
 
-                <div class="col sm-6" id="currentPlayers">
-                    <h1>Current Players</h1>
-                    <hr>
+                    <h3>Current Players</h3>
                     <ul id="currentPlayers">
                     </ul>
                 </div>
-            </div>
-            <div id="gameQuestion">
+
+                <div id="answerQuestions">
                     <center>
                         <h5> Time to Answer Questions! </h5>
-                    </center>
                         <h5 id="time-left"></h5>
-                    <label for="question1">What's the Strangest Place you've made whoopie?</label>
-                    <textarea class="form-control" id="answerOne" placeholder="Question 1"></textarea>
-                    <br>
-                    <label for="question2">Your Favorite Food?</label>
-                    <textarea class="form-control" id="answerTwo" placeholder="Question 2"></textarea>
-                    <br>
-                    <center>
-                        <button id="submitAnswers" class="btn btn-primary">Submit</button>
-                    </center>
-            </div>
-            <div id="initialButtonsandInfo">
-                <button id="host" class="btn btn-primary">HOST A GAME</button>
-                <button id="player" class="btn btn-primary float-right">JOIN A GAME</button>
-                <br>
-
-                <div class="form-group" id="hostInfoBlock">
-                    <label for="hostName">Enter your name</label>
-                    <input type="text" id="hostName" class="form-control" placeholder="Your Name Here, Funny Guy!">
-                    <br>
-                    <label for="gameTitle">Name your Game!</label>
-                    <input type="text" id="hostGameTitle" class="form-control" placeholder="Title Name">
-                    <br>
-                    <center>
-                        <button id="submitHost" class="btn btn-primary">HOST</button>
+                        <label for="question1">What's the Strangest Place you've made whoopie?</label>
+                        <textarea class="form-control" id="answerOne" placeholder="Question 1"></textarea>
+                        <br>
+                        <label for="question2">Your Favorite Food?</label>
+                        <textarea class="form-control" id="answerTwo" placeholder="Question 2"></textarea>
+                        <br>
+                        <button id="submitAnswers" class="button">Submit</button>
                     </center>
                 </div>
-
-                <div class="form-group" id="playerInfoBlock">
-                    <label for="playerName">Enter your name</label>
-                    <input type="text" id="playerName" class="form-control" placeholder="Your Name Here, Funny Guy!">
-                    <br>
-                    <label for="gameTitle">What Game are you Joining?</label>
-                    <input type="text" id="playerGameTitle" class="form-control" placeholder="Game Title Here">
+                <div id="initialButtonsandInfo">
+                    <button id="host" class="button">HOST A GAME</button>
+                    <button id="player" class="button float-right">JOIN A GAME</button>
                     <br>
                     <center>
-                        <button id="submitPlayer" class="btn btn-primary float-center">JOIN</button>
-                    </center>
+                        <div class="form-group" id="hostInfoBlock">
+                            <label for="hostName">Enter your name</label>
+                            <input type="text" id="hostName" class="form-control" placeholder="Your Name Here, Funny Guy!">
+                            <br>
+                            <label for="gameTitle">Name your Game!</label>
+                            <input type="text" id="hostGameTitle" class="form-control" placeholder="Title Name">
+                            <br>
+                            <center>
+                                <button id="submitHost" class="button">HOST</button>
+                            </center>
+                        </div>
+
+                        <div class="form-group" id="playerInfoBlock">
+                            <label for="playerName">Enter your name</label>
+                            <input type="text" id="playerName" class="form-control" placeholder="Your Name Here, Funny Guy!">
+                            <br>
+                            <label for="gameTitle">What Game are you Joining?</label>
+                            <input type="text" id="playerGameTitle" class="form-control" placeholder="Game Title Here">
+                            <br>
+                            <center>
+                                <button id="submitPlayer" class="button float-center">JOIN</button>
+                            </center>
+                        </div>
+                        <br>
                 </div>
-                <br>
             </div>
         </div>
     </div>
-</div>
+</body>
 <script src="/assets/js/game.js"></script>

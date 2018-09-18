@@ -199,6 +199,8 @@ function stop() {
     clearInterval(intervalId);
 }
 
+startGame();
+
 //EVENT HANDLERS
 
 

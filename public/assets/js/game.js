@@ -12,6 +12,7 @@ var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
 var $answerOneVote = $("#answerOneVote");
 var $answerTwoVote = $("#answerTwoVote");
+var $hostName = $("#hostName");
 
 var hostName;
 var playerName;
@@ -72,22 +73,57 @@ function answersToVoting() {
     document.getElementById("answerQuestions").style.display = "none";
 }
 
-var submitHost = function (event) {
-    event.preventDefault;
-    hostName = $("#hostName").val().trim();
-    localStorage.name = hostName;
-    gameTitle = $("#hostGameTitle").val().trim();
-    hideInitialInfo();
-    initWaiting();
+// function to submit a new question to our database
+
+var submitNewHost = function (event) {
+    event.preventDefault();
+    var newHost = {
+      player: $hostName.val().trim(),
+    };
+    if (!(newHost.text)) {
+      alert("Nice try but submit a real name");
+      return;
+    }
+    alert("Player submitted. Thanks!")
+  
+    // Constructing a newPost object to hand to the database
+    var newHost = {
+      player: $hostName.val().trim()
+    };
+  
+    console.log(newHost);
+  
+    submitHost(newHost);
+};
+  
+// Submits a new quesion and brings user to blog page upon completion
+function submitHost(Host) {
+    $.post("/api/game/", Host, function () {
+        window.location.href = "/";
+    });
 }
 
 var submitPlayer = function (event) {
     event.preventDefault;
     playerName = $("#playerName").val().trim();
+    // Constructing a newPost object to hand to the database
+    var newPlayer = {
+        player: playerName.val().trim()
+    };
+    if (!(newPlayer.text)) {
+        alert("Nice try but submit a real player");
+        return;
+    }
+    alert("Player submitted. Thanks!")
+    
+    console.log(newPlayer);
+
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
     hideInitialInfo();
     initWaiting();
+    submitPlayer(newPlayer);
+
 }
 
 function hideInitialInfo() {

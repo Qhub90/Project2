@@ -15,8 +15,26 @@ module.exports = function(app) {
     db.Question.create({
       quest_text: req.body.quest_text,
     })
-      .then(function(dbPost) {
-        res.json(dbPost);
+      .then(function(dbQuestions) {
+        res.json(dbQuestions);
+      });
+  });
+
+  app.get("/api/game", function(req, res) {
+    db.Game.findAll({}).then(function(dbGame) {
+      console.log(dbGame);
+      res.json(dbGame);
+    });
+  });
+  
+
+  app.post("/api/game", function(req, res) {
+    console.log(req.body);
+    db.Game.create({
+      player: req.body.player,
+    })
+      .then(function(dbGame) {
+        res.json(dbGame);
       });
   });
 };

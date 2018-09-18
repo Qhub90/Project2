@@ -10,6 +10,8 @@ var $hostSubBtn = $("#submitHost");
 var $playerSubBtn = $("#submitPlayer");
 var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
+var $answerOneVote = $("#answerOneVote");
+var $answerTwoVote = $("#answerTwoVote");
 
 var hostName;
 var playerName;
@@ -27,40 +29,38 @@ var answerTwoDisplay = $("#answerTwoDisplay");
 
 function initWaiting() {
     if (hostName) {
-      alert("you're the host!");
-      document.getElementById("playerWaitingBlock").style.display = "block";
-      document.getElementById("hostInfoBlock").style.display = "none";
-      $("#currentPlayers").append('<li>' + hostName + '</li>');
-      $("#displayGameTitle").text(gameTitle);
+        $("#playerWaitingBlock").fadeIn();
+        document.getElementById("hostInfoBlock").style.display = "none";
+        $("#currentPlayers").append('<li>' + hostName + '</li>');
+        $("#displayGameTitle").text(gameTitle);
     } else {
-      alert("you're a player!");
-      document.getElementById("playerWaitingBlock").style.display = "block";
-      document.getElementById("playerInfoBlock").style.display = "none";
-      document.getElementById("startGameBtn").style.display = "none";
-      $("#currentPlayers").append('<li>' + playerName + '</li>');
-      $("#displayGameTitle").text(gameTitle);
+        $("#playerWaitingBlock").fadeIn();
+        document.getElementById("playerInfoBlock").style.display = "none";
+        document.getElementById("startGameBtn").style.display = "none";
+        $("#currentPlayers").append('<li>' + playerName + '</li>');
+        $("#displayGameTitle").text(gameTitle);
     }
 }
 
 var revealHostInfo = function (event) {
     event.preventDefault;
+    $("#hostInfoBlock").fadeIn();
     document.getElementById("playerInfoBlock").style.display = "none";
-    document.getElementById("hostInfoBlock").style.display = "block";
-  }
-  
-  var revealPlayerInfo = function (event) {
+}
+
+var revealPlayerInfo = function (event) {
     event.preventDefault;
-    document.getElementById("playerInfoBlock").style.display = "block";
+    $("#playerInfoBlock").fadeIn();
     document.getElementById("hostInfoBlock").style.display = "none";
-  }
+}
 
 //this function changes the page from 'waiting for player' to 'game started' 
 // when host clicks start game. also starts the timer for players to submit answers
 
 var startGame = function (event) {
     event.preventDefault;
+    $("#answerQuestions").fadeIn();
     document.getElementById("playerWaitingBlock").style.display = "none";
-    document.getElementById("answerQuestions").style.display = "block";
     startTimer();
     decrement();
 }
@@ -68,8 +68,8 @@ var startGame = function (event) {
 //function to capture players answers to question 1 and 2
 
 function answersToVoting() {
+    $("#votingBlock").fadeIn();
     document.getElementById("answerQuestions").style.display = "none";
-    document.getElementById("votingBlock").style.display = "block";
 }
 
 var submitHost = function (event) {
@@ -78,23 +78,21 @@ var submitHost = function (event) {
     localStorage.name = hostName;
     gameTitle = $("#hostGameTitle").val().trim();
     hideInitialInfo();
-    alert("Hosting Game As " + hostName)
     initWaiting();
-  }
-  
-  var submitPlayer = function (event) {
+}
+
+var submitPlayer = function (event) {
     event.preventDefault;
     playerName = $("#playerName").val().trim();
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
     hideInitialInfo();
-    alert("Joining Game As " + playerName)
     initWaiting();
-  }
+}
 
-  function hideInitialInfo() {
+function hideInitialInfo() {
     document.getElementById("initialButtonsandInfo").style.display = "none";
-  }
+}
 
 //simple start timer function
 
@@ -110,17 +108,45 @@ function decrement() {
     $("#voting-time-left").text("Time Left: " + timeLeft);
     if (timeLeft === 0) {
         timeUp();
-}
+    }
 }
 
 var submitAnswers = function (event) {
-    alert("Answers Submitted!")
     event.preventDefault;
+    document.getElementById("submitAnswers").style.display = "none";
+    $("#answerSubAlert").fadeIn();
     var answerOne = $("#answerOne").val().trim();
     var answerTwo = $("#answerTwo").val().trim();
     localStorage.answerOne = answerOne;
     localStorage.answerTwo = answerTwo;
-  }
+}
+
+var voteOne = function (event) {
+    event.preventDefault;
+    document.getElementById("answerOneVote").style.display = "none";
+    document.getElementById("answerTwoVote").style.display = "none";
+    $("#voteOneSubDisplay").fadeIn();
+    localStorage.voteOne = 1;
+};
+
+var voteTwo = function (event) {
+    event.preventDefault;
+    document.getElementById("answerOneVote").style.display = "none";
+    document.getElementById("answerTwoVote").style.display = "none";
+    $("#voteTwoSubDisplay").fadeIn();
+    localStorage.voteTwo = 1;
+};
+
+function revealVoteButtons() {
+    localStorage.voteOne = 0;
+    localStorage.voteTwo = 0;
+    document.getElementById("answerOneVote").style.display = "block";
+    document.getElementById("answerTwoVote").style.display = "block";
+    document.getElementById("voteOneSubDisplay").style.display = "none";
+    document.getElementById("voteTwoSubDisplay").style.display = "none";
+}
+
+
 
 // function that triggers when timeLeft = 0. changes the counter value
 // in localstorage. depending on that value we cycle through questions
@@ -141,28 +167,29 @@ function timeUp() {
 function counterCheck() {
     switch (counter) {
         case 1:
-        alert("QUESTION 1");
-        answersToVoting();
-        questionHeaderDisplay.text("What is the strangest place you made whoopie?");
-        answerOneDisplay.text(localStorage.answerOne);
-        answerTwoDisplay.text("In a dumpster!");
-        timeLeft = 10;
-        startTimer();
-        decrement();
-        break
+            alert("QUESTION 1");
+            answersToVoting();
+            questionHeaderDisplay.text("What is the strangest place you made whoopie?");
+            answerOneDisplay.text(localStorage.answerOne);
+            answerTwoDisplay.text("In a dumpster!");
+            timeLeft = 10;
+            startTimer();
+            decrement();
+            break
 
         case 2:
-        alert("QUESTION 2");
-        questionHeaderDisplay.text("What is your favorite food?");
-        answerOneDisplay.text("This question sucks!");
-        answerTwoDisplay.text(localStorage.answerTwo);
-        timeLeft = 10;
-        startTimer();
-        decrement();
-        break
+            alert("QUESTION 2");
+            questionHeaderDisplay.text("What is your favorite food?");
+            revealVoteButtons();
+            answerOneDisplay.text("This question sucks!");
+            answerTwoDisplay.text(localStorage.answerTwo);
+            timeLeft = 10;
+            startTimer();
+            decrement();
+            break
 
         case 3:
-        alert("GAME OVER!")
+            alert("GAME OVER!")
     }
 }
 
@@ -184,3 +211,6 @@ $hostBtn.on("click", revealHostInfo);
 $playerBtn.on("click", revealPlayerInfo);
 
 $submitAnswers.on("click", submitAnswers);
+
+$answerOneVote.on("click", voteOne);
+$answerTwoVote.on("click", voteTwo);

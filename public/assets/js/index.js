@@ -43,7 +43,6 @@ var submitNewQuestion = function (event) {
     alert("Nice try but submit a real question");
     return;
   }
-  $questionText.val("");
   alert("Question submitted. Thanks!")
 
   // Constructing a newPost object to hand to the database

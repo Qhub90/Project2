@@ -6,6 +6,8 @@ module.exports = function(sequelize, DataTypes) {
       games_played: {
         type: DataTypes.INTEGER
       }
+    }, {
+      timestamps: false
     });
     return Player;
   };

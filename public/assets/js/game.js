@@ -10,13 +10,13 @@ var $hostSubBtn = $("#submitHost");
 var $playerSubBtn = $("#submitPlayer");
 var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
-var $answerOneVote = $("#answerOneVote");
-var $answerTwoVote = $("#answerTwoVote");
+var $answerQuestion = $("#answerQuestionBtn");
+
 
 var hostName;
 var playerName;
 var gameTitle;
-var timeLeft = 10;
+var timeLeft = 20;
 var counter = parseInt(localStorage.counter);
 
 localStorage.clear();
@@ -29,12 +29,14 @@ var answerTwoDisplay = $("#answerTwoDisplay");
 
 function initWaiting() {
     if (hostName) {
-        $("#playerWaitingBlock").fadeIn();
+        alert("you're the host!");
+        document.getElementById("playerWaitingBlock").style.display = "block";
         document.getElementById("hostInfoBlock").style.display = "none";
         $("#currentPlayers").append('<li>' + hostName + '</li>');
         $("#displayGameTitle").text(gameTitle);
     } else {
-        $("#playerWaitingBlock").fadeIn();
+        alert("you're a player!");
+        document.getElementById("playerWaitingBlock").style.display = "block";
         document.getElementById("playerInfoBlock").style.display = "none";
         document.getElementById("startGameBtn").style.display = "none";
         $("#currentPlayers").append('<li>' + playerName + '</li>');
@@ -44,13 +46,13 @@ function initWaiting() {
 
 var revealHostInfo = function (event) {
     event.preventDefault;
-    $("#hostInfoBlock").fadeIn();
     document.getElementById("playerInfoBlock").style.display = "none";
+    document.getElementById("hostInfoBlock").style.display = "block";
 }
 
 var revealPlayerInfo = function (event) {
     event.preventDefault;
-    $("#playerInfoBlock").fadeIn();
+    document.getElementById("playerInfoBlock").style.display = "block";
     document.getElementById("hostInfoBlock").style.display = "none";
 }
 
@@ -59,8 +61,8 @@ var revealPlayerInfo = function (event) {
 
 var startGame = function (event) {
     event.preventDefault;
-    $("#answerQuestions").fadeIn();
     document.getElementById("playerWaitingBlock").style.display = "none";
+    document.getElementById("answerQuestions").style.display = "block";
     startTimer();
     decrement();
 }
@@ -68,8 +70,8 @@ var startGame = function (event) {
 //function to capture players answers to question 1 and 2
 
 function answersToVoting() {
-    $("#votingBlock").fadeIn();
     document.getElementById("answerQuestions").style.display = "none";
+    document.getElementById("votingBlock").style.display = "block";
 }
 
 var submitHost = function (event) {
@@ -78,6 +80,7 @@ var submitHost = function (event) {
     localStorage.name = hostName;
     gameTitle = $("#hostGameTitle").val().trim();
     hideInitialInfo();
+    alert("Hosting Game As " + hostName)
     initWaiting();
 }
 
@@ -87,6 +90,7 @@ var submitPlayer = function (event) {
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
     hideInitialInfo();
+    alert("Joining Game As " + playerName)
     initWaiting();
 }
 
@@ -112,41 +116,13 @@ function decrement() {
 }
 
 var submitAnswers = function (event) {
+    alert("Answers Submitted!")
     event.preventDefault;
-    document.getElementById("submitAnswers").style.display = "none";
-    $("#answerSubAlert").fadeIn();
     var answerOne = $("#answerOne").val().trim();
     var answerTwo = $("#answerTwo").val().trim();
     localStorage.answerOne = answerOne;
     localStorage.answerTwo = answerTwo;
 }
-
-var voteOne = function (event) {
-    event.preventDefault;
-    document.getElementById("answerOneVote").style.display = "none";
-    document.getElementById("answerTwoVote").style.display = "none";
-    $("#voteOneSubDisplay").fadeIn();
-    localStorage.voteOne = 1;
-};
-
-var voteTwo = function (event) {
-    event.preventDefault;
-    document.getElementById("answerOneVote").style.display = "none";
-    document.getElementById("answerTwoVote").style.display = "none";
-    $("#voteTwoSubDisplay").fadeIn();
-    localStorage.voteTwo = 1;
-};
-
-function revealVoteButtons() {
-    localStorage.voteOne = 0;
-    localStorage.voteTwo = 0;
-    document.getElementById("answerOneVote").style.display = "block";
-    document.getElementById("answerTwoVote").style.display = "block";
-    document.getElementById("voteOneSubDisplay").style.display = "none";
-    document.getElementById("voteTwoSubDisplay").style.display = "none";
-}
-
-
 
 // function that triggers when timeLeft = 0. changes the counter value
 // in localstorage. depending on that value we cycle through questions
@@ -160,6 +136,83 @@ function timeUp() {
     localStorage.counter = counter
     counterCheck();
 }
+
+// *
+// *
+// THIS SECTION generates a random series of questions, 
+// then assigns TWO questions to each player
+// Each player shares one question with each other player
+// This is hard-coded at the function beginning at 178
+
+var questions = [];
+var getQuestion = function (event) {
+    event.preventDefault;
+    var randomArray = [];
+    var randomQuestions = [];
+    var players = 4; // this is determined by the number of players in our game
+    var totQuestions = 31; // this refers to the number of questions in our primary questions table
+    var randomQuest = function () {
+        for (var r = 0; randomArray.length < players; r++) {
+            var random = Math.floor(Math.random() * totQuestions);
+            if (randomArray.indexOf(random) === -1) {
+                randomArray.push(random);
+            }
+            else {
+                randomQuest();
+            }
+        }
+    }
+    randomQuest()
+
+    $.get("/api/questions", function (data) {
+        questions = data;
+        for (var q = 0; q < 4; q++) {
+            randomQuestions.push(questions[randomArray[q]].quest_text);
+            // console.log(questions[randomArray[q]].quest_text);
+        }
+        console.log("Our array: ", randomQuestions);
+        $("#question1").text(randomQuestions[0]);
+        $("#question2").text(randomQuestions[1]);
+
+        // function to assign random questions to each player
+        var questionator = [
+            {
+                player1quest: {
+                    "playername": "player1",
+                    "question1": randomQuestions[0],
+                    "question2": randomQuestions[1],
+                    "answer1": "",
+                    "answer2": ""
+                },
+                player2quest: {
+                    "playername": "player2",
+                    "question1": randomQuestions[1],
+                    "question2": randomQuestions[2],
+                    "answer1": "",
+                    "answer2": ""
+                },
+                player3quest: {
+                    "playername": "player3",
+                    "question1": randomQuestions[2],
+                    "question2": randomQuestions[3],
+                    "answer1": "",
+                    "answer2": ""
+                },
+                player4quest: {
+                    "playername": "player4",
+                    "question1": randomQuestions[3],
+                    "question2": randomQuestions[0],
+                    "answer1": "",
+                    "answer2": ""
+                }
+            }
+        ]
+        console.log(questionator);
+    });
+}
+// *
+// *
+
 
 //simple function to return the counter value in localStorage
 //for use in a switch case with counterSwitch var
@@ -180,7 +233,6 @@ function counterCheck() {
         case 2:
             alert("QUESTION 2");
             questionHeaderDisplay.text("What is your favorite food?");
-            revealVoteButtons();
             answerOneDisplay.text("This question sucks!");
             answerTwoDisplay.text(localStorage.answerTwo);
             timeLeft = 10;
@@ -210,7 +262,24 @@ $playerSubBtn.on("click", submitPlayer);
 $hostBtn.on("click", revealHostInfo);
 $playerBtn.on("click", revealPlayerInfo);
 
+$answerQuestion.on("click", getQuestion);
+
+var submitAnswers = function (event) {
+    event.preventDefault();
+    var answer1 = {
+        text: answerOne
+    };
+    var answer2 = {
+        text: answerTwo
+    }
+    submitAnswer(answer1.text, answer2.text);
+};
+
+// Submits a new quesion and brings user to blog page upon completion
+function submitAnswer(answer1, answer2) {
+    $.post("/api/answers/", answer1, answer2, function () {
+        window.location.href = "/";
+    });
+}
 $submitAnswers.on("click", submitAnswers);
 
-$answerOneVote.on("click", voteOne);
-$answerTwoVote.on("click", voteTwo);

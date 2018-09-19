@@ -11,6 +11,8 @@ var $playerSubBtn = $("#submitPlayer");
 var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
 var $answerQuestion = $("#answerQuestionBtn");
+var $voteBtnOne = $("#answerOneButton");
+var $voteBtnTwo = $("#answerTwoButton");
 
 
 var hostName;
@@ -29,14 +31,12 @@ var answerTwoDisplay = $("#answerTwoDisplay");
 
 function initWaiting() {
     if (hostName) {
-        alert("you're the host!");
-        document.getElementById("playerWaitingBlock").style.display = "block";
+        $("#playerWaitingBlock").fadeIn();
         document.getElementById("hostInfoBlock").style.display = "none";
         $("#currentPlayers").append('<li>' + hostName + '</li>');
         $("#displayGameTitle").text(gameTitle);
     } else {
-        alert("you're a player!");
-        document.getElementById("playerWaitingBlock").style.display = "block";
+        $("#playerWaitingBlock").fadeIn();
         document.getElementById("playerInfoBlock").style.display = "none";
         document.getElementById("startGameBtn").style.display = "none";
         $("#currentPlayers").append('<li>' + playerName + '</li>');
@@ -47,12 +47,12 @@ function initWaiting() {
 var revealHostInfo = function (event) {
     event.preventDefault;
     document.getElementById("playerInfoBlock").style.display = "none";
-    document.getElementById("hostInfoBlock").style.display = "block";
+    $("#hostInfoBlock").fadeIn();
 }
 
 var revealPlayerInfo = function (event) {
     event.preventDefault;
-    document.getElementById("playerInfoBlock").style.display = "block";
+    $("#playerInfoBlock").fadeIn();
     document.getElementById("hostInfoBlock").style.display = "none";
 }
 
@@ -80,7 +80,6 @@ var submitHost = function (event) {
     localStorage.name = hostName;
     gameTitle = $("#hostGameTitle").val().trim();
     hideInitialInfo();
-    alert("Hosting Game As " + hostName)
     initWaiting();
 }
 
@@ -90,7 +89,6 @@ var submitPlayer = function (event) {
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
     hideInitialInfo();
-    alert("Joining Game As " + playerName)
     initWaiting();
 }
 
@@ -116,12 +114,35 @@ function decrement() {
 }
 
 var submitAnswers = function (event) {
-    alert("Answers Submitted!")
     event.preventDefault;
     var answerOne = $("#answerOne").val().trim();
     var answerTwo = $("#answerTwo").val().trim();
     localStorage.answerOne = answerOne;
     localStorage.answerTwo = answerTwo;
+    document.getElementById("submitAnswers").style.display = "none";
+    $("#answerSubAlert").fadeIn();
+}
+
+var voteAnswerOne = function (event) {
+    event.preventDefault;
+    var vote1 = 1;
+    var vote2 = 0;
+    localStorage.vote1 = vote1;
+    localStorage.vote2 = vote2;
+    document.getElementById("answerOneButton").style.display = "none";
+    document.getElementById("answerTwoButton").style.display = "none";
+    $("#voteOneSubDisplay").fadeIn();
+}
+
+var voteAnswerTwo = function (event) {
+    event.preventDefault;
+    var vote1 = 0;
+    var vote2 = 1;
+    localStorage.vote1 = vote1;
+    localStorage.vote2 = vote2;
+    document.getElementById("answerOneButton").style.display = "none";
+    document.getElementById("answerTwoButton").style.display = "none";
+    $("#voteTwoSubDisplay").fadeIn();
 }
 
 // function that triggers when timeLeft = 0. changes the counter value
@@ -212,6 +233,12 @@ var getQuestion = function (event) {
 }
 // *
 // *
+function switchVoteButtons() {
+    document.getElementById("answerOneButton").style.display = "block";
+    document.getElementById("answerTwoButton").style.display = "block";
+    document.getElementById("voteOneSubDisplay").style.display = "none";
+    document.getElementById("voteTwoSubDisplay").style.display = "none";
+}
 
 
 //simple function to return the counter value in localStorage
@@ -220,7 +247,6 @@ var getQuestion = function (event) {
 function counterCheck() {
     switch (counter) {
         case 1:
-            alert("QUESTION 1");
             answersToVoting();
             questionHeaderDisplay.text("What is the strangest place you made whoopie?");
             answerOneDisplay.text(localStorage.answerOne);
@@ -231,7 +257,7 @@ function counterCheck() {
             break
 
         case 2:
-            alert("QUESTION 2");
+            switchVoteButtons();
             questionHeaderDisplay.text("What is your favorite food?");
             answerOneDisplay.text("This question sucks!");
             answerTwoDisplay.text(localStorage.answerTwo);
@@ -264,22 +290,7 @@ $playerBtn.on("click", revealPlayerInfo);
 
 $answerQuestion.on("click", getQuestion);
 
-var submitAnswers = function (event) {
-    event.preventDefault();
-    var answer1 = {
-        text: answerOne
-    };
-    var answer2 = {
-        text: answerTwo
-    }
-    submitAnswer(answer1.text, answer2.text);
-};
-
-// Submits a new quesion and brings user to blog page upon completion
-function submitAnswer(answer1, answer2) {
-    $.post("/api/answers/", answer1, answer2, function () {
-        window.location.href = "/";
-    });
-}
 $submitAnswers.on("click", submitAnswers);
+$voteBtnOne.on("click", voteAnswerOne);
+$voteBtnTwo.on("click", voteAnswerTwo)
 

@@ -22,6 +22,7 @@ var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
 var $answerOneVote = $("#answerOneVote");
 var $answerTwoVote = $("#answerTwoVote");
+var $answerQuestionBtn = $("#answerQuestionBtn");
 var hostName;
 var playerName;
 var gameTitle;
@@ -33,6 +34,7 @@ counter = 0;
 var questionHeaderDisplay = $("#questionHeader");
 var answerOneDisplay = $("#answerOneDisplay");
 var answerTwoDisplay = $("#answerTwoDisplay");
+
 function initWaiting(gameTitle) {
     $("#displayGameTitle").text('Game Title:'+ gameTitle);  
 // Updating the html when aa child is added to firebase
@@ -305,4 +307,6 @@ $playerBtn.on("click", revealPlayerInfo);
 
 $submitAnswers.on("click", submitAnswers);
 $answerOneVote.on("click", voteAnswerOne);
-$answerTwoVote.on("click", voteAnswerTwo)
+$answerTwoVote.on("click", voteAnswerTwo);
+
+$answerQuestionBtn.on("click", getQuestion);

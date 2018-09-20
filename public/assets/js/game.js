@@ -38,11 +38,19 @@ var answerTwoDisplay = $("#answerTwoDisplay");
 function initWaiting(gameTitle) {
     $("#displayGameTitle").text('Game Title:'+ gameTitle);  
 // Updating the html when aa child is added to firebase
-    database.ref(gameTitle).on("child_added", function(childSnapshot) {      
+    database.ref(gameTitle).on("child_added", function(childSnapshot) {    
+        if (childSnapshot.val().player === "start") {
+                $("#answerQuestions").fadeIn();
+    document.getElementById("playerWaitingBlock").style.display = "none";
+    startTimer();
+    decrement();
+        } else {
         console.log(childSnapshot.val().gameName);
         console.log(childSnapshot.val().player);
         $("#currentPlayers").append("<li>" + childSnapshot.val().player + "</li>");
+        }
          });
+        
    
     if (hostName) {
         $("#playerWaitingBlock").fadeIn();
@@ -68,11 +76,11 @@ var revealPlayerInfo = function (event) {
 // when host clicks start game. also starts the timer for players to submit answers
 var startGame = function (event) {
     event.preventDefault;
-    $("#answerQuestions").fadeIn();
-    document.getElementById("playerWaitingBlock").style.display = "none";
-    startTimer();
-    decrement();
-}
+    database.ref(gameTitle).push({
+        gameName: gameTitle,
+        player: "start"
+    })
+};
 //function to capture players answers to question 1 and 2
 function answersToVoting() {
     $("#votingBlock").fadeIn();
@@ -106,12 +114,6 @@ var submitPlayer = function (event) {
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
 // sending new players data to firebase
-      var usersRef = firebase.database().ref(gameTitle);
-      var adaRef = usersRef.child('-LMnetUFCdCEOcL0OHzz');
-      var adaFirstNameRef = adaRef.child('player');
-      var path = adaFirstNameRef.toString();
-      console.log(path);
-      firebase.database().ref().update({"123/-LMnetUFCdCEOcL0OHzz/player": "Testing"})
       function writePlayerData(userId, gameName) {
         database.ref(gameName + "/" +  userId).set({
             gameName: gameTitle,
@@ -174,7 +176,6 @@ var voteAnswerTwo = function (event) {
 // scores at the end of the game
 function timeUp() {
     stop();
-    alert("TIME'S UP!")
     counter++;
     localStorage.counter = counter
     counterCheck();
@@ -264,7 +265,6 @@ function switchVoteButtons() {
 function counterCheck() {
     switch (counter) {
         case 1:
-            alert("QUESTION 1");
             answersToVoting();
             questionHeaderDisplay.text("What is the strangest place you made whoopie?");
             answerOneDisplay.text(localStorage.answerOne);
@@ -274,7 +274,6 @@ function counterCheck() {
             decrement();
             break
         case 2:
-            alert("QUESTION 2");
             questionHeaderDisplay.text("What is your favorite food?");
             revealVoteButtons();
             answerOneDisplay.text("This question sucks!");

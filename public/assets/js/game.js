@@ -177,6 +177,86 @@ function timeUp() {
     localStorage.counter = counter
     counterCheck();
 }
+
+// *
+// *
+// THIS SECTION generates a random series of questions, 
+// then assigns TWO questions to each player
+// Each player shares one question with each other player
+// This is hard-coded at the function beginning at 178
+var questions = [];
+var getQuestion = function (event) {
+    event.preventDefault;
+    var randomArray = [];
+    var randomQuestions = [];
+    var players = 4; // this is determined by the number of players in our game
+    var totQuestions = 31; // this refers to the number of questions in our primary questions table
+    var randomQuest = function () {
+        for (var r = 0; randomArray.length < players; r++) {
+            var random = Math.floor(Math.random() * totQuestions);
+            if (randomArray.indexOf(random) === -1) {
+                randomArray.push(random);
+            }
+            else {
+                randomQuest();
+            }
+        }
+    }
+    randomQuest()
+     $.get("/api/questions", function (data) {
+        questions = data;
+        for (var q = 0; q < 4; q++) {
+            randomQuestions.push(questions[randomArray[q]].quest_text);
+            // console.log(questions[randomArray[q]].quest_text);
+        }
+        console.log("Our array: ", randomQuestions);
+        $("#question1").text(randomQuestions[0]);
+        $("#question2").text(randomQuestions[1]);
+         // function to assign random questions to each player
+        var questionator = [
+            {
+                player1quest: {
+                    "playername": "player1",
+                    "question1": randomQuestions[0],
+                    "question2": randomQuestions[1],
+                    "answer1": "",
+                    "answer2": ""
+                },
+                player2quest: {
+                    "playername": "player2",
+                    "question1": randomQuestions[1],
+                    "question2": randomQuestions[2],
+                    "answer1": "",
+                    "answer2": ""
+                },
+                player3quest: {
+                    "playername": "player3",
+                    "question1": randomQuestions[2],
+                    "question2": randomQuestions[3],
+                    "answer1": "",
+                    "answer2": ""
+                },
+                player4quest: {
+                    "playername": "player4",
+                    "question1": randomQuestions[3],
+                    "question2": randomQuestions[0],
+                    "answer1": "",
+                    "answer2": ""
+                }
+            }
+        ]
+        console.log(questionator);
+    });
+}
+// *
+// *
+function switchVoteButtons() {
+    document.getElementById("answerOneButton").style.display = "block";
+    document.getElementById("answerTwoButton").style.display = "block";
+    document.getElementById("voteOneSubDisplay").style.display = "none";
+    document.getElementById("voteTwoSubDisplay").style.display = "none";
+}
+
 //simple function to return the counter value in localStorage
 //for use in a switch case with counterSwitch var
 function counterCheck() {
@@ -224,5 +304,5 @@ $hostBtn.on("click", revealHostInfo);
 $playerBtn.on("click", revealPlayerInfo);
 
 $submitAnswers.on("click", submitAnswers);
-$voteBtnOne.on("click", voteAnswerOne);
-$voteBtnTwo.on("click", voteAnswerTwo)
+$answerOneVote.on("click", voteAnswerOne);
+$answerTwoVote.on("click", voteAnswerTwo)

@@ -20,8 +20,8 @@ var $hostSubBtn = $("#submitHost");
 var $playerSubBtn = $("#submitPlayer");
 var $startGameBtn = $("#startGameBtn");
 var $submitAnswers = $("#submitAnswers");
-var $answerOneVote = $("#answerOneVote");
-var $answerTwoVote = $("#answerTwoVote");
+var $answerOneVote = $("#answerOneButton");
+var $answerTwoVote = $("#answerTwoButton");
 var $answerQuestionBtn = $("#answerQuestionBtn");
 var hostName;
 var playerName;
@@ -275,7 +275,7 @@ function counterCheck() {
             break
         case 2:
             questionHeaderDisplay.text("What is your favorite food?");
-            revealVoteButtons();
+            switchVoteButtons();
             answerOneDisplay.text("This question sucks!");
             answerTwoDisplay.text(localStorage.answerTwo);
             timeLeft = 10;

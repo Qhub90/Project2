@@ -317,7 +317,7 @@ function switchVoteButtons() {
 };
 
 //function to stop timer
-function stop()
+function stop(){
 clearInterval(intervalId);
 }
 //EVENT HANDLERS

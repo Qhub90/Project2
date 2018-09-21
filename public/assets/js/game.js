@@ -6,9 +6,9 @@ var config = {
     projectId: "project-2-23ed1",
     storageBucket: "project-2-23ed1.appspot.com",
     messagingSenderId: "881504267339"
-  };
-  firebase.initializeApp(config);
-  var database = firebase.database();
+};
+firebase.initializeApp(config);
+var database = firebase.database();
 // changing the page into the 'waiting for players' state
 // alerts for testing purposes
 var $questionText = $("#question-text");
@@ -36,31 +36,30 @@ var answerOneDisplay = $("#answerOneDisplay");
 var answerTwoDisplay = $("#answerTwoDisplay");
 
 function initWaiting(gameTitle) {
-    $("#displayGameTitle").text('Game Title:'+ gameTitle);  
-// Updating the html when aa child is added to firebase
-    database.ref(gameTitle).on("child_added", function(childSnapshot) {    
+    $("#displayGameTitle").text('Game Title:' + gameTitle);
+    // Updating the html when aa child is added to firebase
+    database.ref(gameTitle).on("child_added", function (childSnapshot) {
         if (childSnapshot.val().player === "start") {
-                $("#answerQuestions").fadeIn();
-    document.getElementById("playerWaitingBlock").style.display = "none";
-    startTimer();
-    decrement();
+            $("#answerQuestions").fadeIn();
+            document.getElementById("playerWaitingBlock").style.display = "none";
+            startTimer();
+            decrement();
         } else {
-        console.log(childSnapshot.val().gameName);
-        console.log(childSnapshot.val().player);
-        $("#currentPlayers").append("<li>" + childSnapshot.val().player + "</li>");
+            console.log(childSnapshot.val().gameName);
+            console.log(childSnapshot.val().player);
+            $("#currentPlayers").append("<li>" + childSnapshot.val().player + "</li>");
         }
-         });
-        
-   
+    });
+
     if (hostName) {
         $("#playerWaitingBlock").fadeIn();
-        document.getElementById("hostInfoBlock").style.display = "none";            
+        document.getElementById("hostInfoBlock").style.display = "none";
     } else {
         $("#playerWaitingBlock").fadeIn();
         document.getElementById("playerInfoBlock").style.display = "none";
-        document.getElementById("startGameBtn").style.display = "none";                   
-    
-}
+        document.getElementById("startGameBtn").style.display = "none";
+
+    }
 }
 var revealHostInfo = function (event) {
     event.preventDefault;
@@ -97,11 +96,11 @@ var submitHost = function (event) {
     //       player: hostName,                                     
     // })
     function writeHostData(userId, gameName) {
-    database.ref(gameName + "/" +  userId).set({
-        gameName: gameTitle,
-        player: hostName,
-        
-      });
+        database.ref(gameName + "/" + userId).set({
+            gameName: gameTitle,
+            player: hostName,
+
+        });
     }
     writeHostData(hostName, gameTitle);
     hideInitialInfo();
@@ -113,17 +112,17 @@ var submitPlayer = function (event) {
     playerName = $("#playerName").val().trim();
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
-// sending new players data to firebase
-      function writePlayerData(userId, gameName) {
-        database.ref(gameName + "/" +  userId).set({
+    // sending new players data to firebase
+    function writePlayerData(userId, gameName) {
+        database.ref(gameName + "/" + userId).set({
             gameName: gameTitle,
             player: playerName,
-            
-          });
-        }
-        writePlayerData(playerName, gameTitle);
+
+        });
+    }
+    writePlayerData(playerName, gameTitle);
     hideInitialInfo();
-    initWaiting(gameTitle,playerName);
+    initWaiting(gameTitle, playerName);
 }
 function hideInitialInfo() {
     document.getElementById("initialButtonsandInfo").style.display = "none";
@@ -206,7 +205,7 @@ var getQuestion = function (event) {
         }
     }
     randomQuest()
-     $.get("/api/questions", function (data) {
+    $.get("/api/questions", function (data) {
         questions = data;
         for (var q = 0; q < 4; q++) {
             randomQuestions.push(questions[randomArray[q]].quest_text);
@@ -215,7 +214,7 @@ var getQuestion = function (event) {
         console.log("Our array: ", randomQuestions);
         $("#question1").text(randomQuestions[0]);
         $("#question2").text(randomQuestions[1]);
-         // function to assign random questions to each player
+        // function to assign random questions to each player
         var questionator = [
             {
                 player1quest: {
@@ -269,7 +268,7 @@ function counterCheck() {
             questionHeaderDisplay.text("What is the strangest place you made whoopie?");
             answerOneDisplay.text(localStorage.answerOne);
             answerTwoDisplay.text("In a dumpster!");
-            timeLeft = 10;
+            timeLeft = 20;
             startTimer();
             decrement();
             break
@@ -278,12 +277,30 @@ function counterCheck() {
             switchVoteButtons();
             answerOneDisplay.text("This question sucks!");
             answerTwoDisplay.text(localStorage.answerTwo);
-            timeLeft = 10;
+            timeLeft = 20;
             startTimer();
             decrement();
             break
         case 3:
-            // alert("GAME OVER!")
+            questionHeaderDisplay.text("What is your favorite food?");
+            switchVoteButtons();
+            answerOneDisplay.text("This question sucks!");
+            answerTwoDisplay.text(localStorage.answerTwo);
+            timeLeft = 20;
+            startTimer();
+            decrement();
+            break
+        case 4:
+            questionHeaderDisplay.text("What is your favorite food?");
+            switchVoteButtons();
+            answerOneDisplay.text("This question sucks!");
+            answerTwoDisplay.text(localStorage.answerTwo);
+            timeLeft = 20;
+            startTimer();
+            decrement();
+            break
+        case 5:
+        alert("Game over!")
     }
 }
 function switchVoteButtons() {
@@ -300,8 +317,8 @@ function switchVoteButtons() {
 };
 
 //function to stop timer
-function stop() 
-    clearInterval(intervalId);
+function stop()
+clearInterval(intervalId);
 }
 //EVENT HANDLERS
 $startGameBtn.on("click", startGame);

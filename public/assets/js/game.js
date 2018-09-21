@@ -283,18 +283,24 @@ function counterCheck() {
             decrement();
             break
         case 3:
-            alert("GAME OVER!")
+            // alert("GAME OVER!")
     }
 }
 function switchVoteButtons() {
     document.getElementById("answerOneButton").style.display = "block";
     document.getElementById("answerTwoButton").style.display = "block";
+    // document.getElementById("answerThreeButton").style.display = "block";
+    // document.getElementById("answerFourButton").style.display = "blFour
+
     document.getElementById("voteOneSubDisplay").style.display = "none";
     document.getElementById("voteTwoSubDisplay").style.display = "none";
+    // document.getElementById("voteThreeSubDisplay").style.display = "none";
+    // document.getElementById("voteFourSubDisplay").style.display = "none";
+
 };
 
 //function to stop timer
-function stop() {
+function stop() 
     clearInterval(intervalId);
 }
 //EVENT HANDLERS

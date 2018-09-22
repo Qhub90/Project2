@@ -55,6 +55,10 @@ var answer42;
 var bird = false;
 var answerPush = 0;
 var voteCheck = 0;
+var hostTotal = 0;
+var player1Total = 0;
+var player2Total = 0;
+var player3Total = 0;
 
 function initWaiting(gameTitle) {
     $("#displayGameTitle").text('Game Title:' + gameTitle);
@@ -335,23 +339,20 @@ var voteAnswerOne = function (event) {
     if (voteCheck === 1) {database.ref(gameTitle + "/answers/question1/answerOne").push({
         vote: "vote"
         })
-
     };
     if (voteCheck === 2) {database.ref(gameTitle + "/answers/question2/answerOne").push({
         vote: "vote"
         })
-
     };
     if (voteCheck === 3) {database.ref(gameTitle + "/answers/question3/answerOne").push({
         vote: "vote"
         })
-
     };
     if (voteCheck === 4) {database.ref(gameTitle + "/answers/question4/answerOne").push({
         vote: "vote"
         })
-
     };
+
 }
 var voteAnswerTwo = function (event) {
     event.preventDefault;
@@ -383,7 +384,49 @@ var voteAnswerTwo = function (event) {
         })
     
     };
+
 }
+
+function voteCounter() {
+    var X=0;
+    if (X===0) {database.ref(gameTitle + "/answers/question1/answerOne").on("child_added", function () {
+        hostTotal+=1;
+    })
+    database.ref(gameTitle + "/answers/question1/answerTwo").on("child_added", function () {
+        player3Total+=1;
+    })
+    X+=1}
+    if (X===1) {database.ref(gameTitle + "/answers/question2/answerOne").on("child_added", function () {
+        hostTotal+=1;
+    })
+    database.ref(gameTitle + "/answers/question2/answerTwo").on("child_added", function () {
+        player1Total+=1;
+    })
+    X+=1}
+    if (X===2) {database.ref(gameTitle + "/answers/question3/answerOne").on("child_added", function () {
+        player1Total+=1;
+    })
+    database.ref(gameTitle + "/answers/question3/answerTwo").on("child_added", function () {
+        player2Total+=1;
+    })
+    X+=1}
+    if (X===3) {database.ref(gameTitle + "/answers/question4/answerOne").on("child_added", function () {
+        player2Total+=1;
+    })
+    database.ref(gameTitle + "/answers/question4/answerTwo").on("child_added", function () {
+        player3Total+=1;
+    })
+    X+=1}
+
+    console.log("Host Score: " + hostTotal);
+    console.log("Player 1 Score: " + player1Total);
+    console.log("Player 2 Score: " + player2Total);
+    console.log("Player 3 Score: " + player3Total);
+};
+
+
+
+
 
 
 // function that triggers when timeLeft = 0. changes the counter value
@@ -484,6 +527,9 @@ function counterCheck() {
             startTimer();
             decrement();
             break
+        case 5:
+        voteCounter();
+        break
     }
 }
 function switchVoteButtons() {

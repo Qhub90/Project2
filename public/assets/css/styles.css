@@ -31,6 +31,7 @@
   }
 
   .header {
+    background-image: url(../images/header.png);
     color: white;
   }
 
@@ -52,10 +53,6 @@
 
   .italics {
     font-style: italic;
-  }
-
-  .header {
-    background-image: url(../images/header.png)
   }
   
 .button span {
@@ -114,6 +111,7 @@ label {
   margin: 20px;
   padding-bottom: 15px;
   padding-top: 15px;
+  animation-timing-function: ease-in-out;
 }
 
 #currentPlayers {
@@ -123,4 +121,72 @@ label {
 #questionHeader, h5 {
   font-size: 50px;
   color:white;
+}
+
+#answerSubAlert {
+  color: green;
+  display:none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#voteOneSubDisplay, #voteTwoSubDisplay {
+  color:green;
+  display:none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#submitQuestion {
+  margin-bottom:20px;
+}
+
+h4 {
+  color:white;
+}
+
+#headerButtonDisplay {
+position: fixed;
+}
+
+#homeButton {
+margin-top:35%;
+margin-left:250%;
+height:90px;
+border-radius: 100%;
+background-color: white
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-image: url(../images/header.png);
+  border-radius:30px;
+  color:white;
+  margin: auto;
+  padding: 20px;
+  border: 2px solid white;
+  width: 50%;
+}
+
+.modalLogo {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 30px;
+}
+
+p {
+  font-size: 20px;
+  word-wrap: auto;
 }

@@ -1,22 +1,57 @@
+<div class="header">
+    <div id="headerButtonDisplay">
+    <a href="/">
+    <img src="../assets/images/home.png" id="homeButton" class="button">
+    </a>
+    </div>
+    <center>
+        <h1 class="logo"> Funny Guy! </h1>
+        <h2 class="italics">So, you think you're a Funny Guy?</h2>
+    </center>
+    <hr>
+</div>
 <div class="container" id="mainBody">
     <div class="row">
         <div class="col sm-6">
             <div id="initialButtonsandInfo">
-                <a href="game"><button id="setup" class="btn btn-primary">Game Setup</button></a>
+                <a href="game"><button id="setup" class="button">Game Setup</button></a>
+                <button id="howToPlayButton" class="button float-right">HOW TO PLAY</button>
                 <br>
-            </div>
             <div class="form-group" id="QBlock">
                 <center>
-                    <h5> Have an idea for a question?<br> Submit Below!
-                    </h5>
-                </center>
+                    <h4> Have an idea for a question?<br> Submit Below!
+                    </h4>
                 <label for="question-submit">Enter a question:</label>
                 <textarea class="form-control" id="question-text" placeholder="And don't forget to make it funny!"></textarea>
             </div>
             <center>
-                <button type="submit" id="submitQuestion" class="btn btn-primary">Submit</button>
+                <button type="submit" id="submitQuestion" class="button">Submit</button>
             </center>
+            </div>
         </div>
     </div>
+</div>
+
+<div id="howToPlayModal" class="modal">
+
+  <div class="modal-content">
+    <h1 class="modalLogo"> Funny Guy! </h1>
+    <p>Funny Guy is the ultimate test of comedic superiority! Team up with
+        three friends and host a game to start. You can name your game whatever you want  
+        so be creative! Share your game title with your friends and start the game after 
+        everyone has joined.
+        <br>
+        <br>
+        After everyone is in, it's time to be funny! Everyone will be paired
+        up and asked to provide funny answers to funny questions, then you'll
+        cycle through the questions and vote for your favorite answers.
+        <br>
+        <br>
+        Whoever has the most votes by the end of the game is officially a funny guy!
+        If you're the winner, feel free to rub it in all of your friend's faces for eternity. 
+        Also remember that anything goes and have fun!
+    </p>
+  </div>
+
 </div>
 <script src="/assets/js/index.js"></script>

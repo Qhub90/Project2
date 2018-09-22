@@ -18,6 +18,8 @@ module.exports = function(sequelize, DataTypes) {
     tag5: {
       type: DataTypes.STRING
     },
+  }, {
+    timestamps: false
   });
   return Question
 };

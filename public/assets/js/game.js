@@ -54,6 +54,7 @@ var answer41;
 var answer42;
 var bird = false;
 var answerPush = 0;
+var voteCheck = 0;
 
 function initWaiting(gameTitle) {
     $("#displayGameTitle").text('Game Title:' + gameTitle);
@@ -183,6 +184,8 @@ function pullQuestions() {
     database.ref(gameTitle).on("child_added", function (childSnapshot) {
         if (childSnapshot.val().question1) {
             question1 = childSnapshot.val().question1;
+            question1work = childSnapshot.val().question1;
+
         }
         if (childSnapshot.val().question2) {
             question2 = childSnapshot.val().question2;
@@ -328,6 +331,27 @@ var voteAnswerOne = function (event) {
     document.getElementById("answerOneButton").style.display = "none";
     document.getElementById("answerTwoButton").style.display = "none";
     $("#voteOneSubDisplay").fadeIn();
+    voteCheck++
+    if (voteCheck === 1) {database.ref(gameTitle + "/answers/question1/answerOne").push({
+        vote: "vote"
+        })
+
+    };
+    if (voteCheck === 2) {database.ref(gameTitle + "/answers/question2/answerOne").push({
+        vote: "vote"
+        })
+
+    };
+    if (voteCheck === 3) {database.ref(gameTitle + "/answers/question3/answerOne").push({
+        vote: "vote"
+        })
+
+    };
+    if (voteCheck === 4) {database.ref(gameTitle + "/answers/question4/answerOne").push({
+        vote: "vote"
+        })
+
+    };
 }
 var voteAnswerTwo = function (event) {
     event.preventDefault;
@@ -338,6 +362,27 @@ var voteAnswerTwo = function (event) {
     document.getElementById("answerOneButton").style.display = "none";
     document.getElementById("answerTwoButton").style.display = "none";
     $("#voteTwoSubDisplay").fadeIn();
+    voteCheck++;
+    if (voteCheck === 1) {database.ref(gameTitle + "/answers/question1/answerTwo").push({
+        vote: "vote"
+        })
+    
+    };
+    if (voteCheck === 2) {database.ref(gameTitle + "/answers/question2/answerTwo").push({
+        vote: "vote"
+        })
+    
+    };
+    if (voteCheck === 3) {database.ref(gameTitle + "/answers/question3/answerTwo").push({
+        vote: "vote"
+        })
+    
+    };
+    if (voteCheck === 4) {database.ref(gameTitle + "/answers/question4/answerTwo").push({
+        vote: "vote"
+        })
+    
+    };
 }
 
 
@@ -405,7 +450,7 @@ function counterCheck() {
     switch (counter) {
         case 1:
             answersToVoting();
-            $("#questionHeader").text(question1);
+            questionHeaderDisplay.text(randomQuestions[0]);
             answerOneDisplay.text(answer11);
             answerTwoDisplay.text(answer12);
             timeLeft = 10;
@@ -413,7 +458,7 @@ function counterCheck() {
             decrement();
             break
         case 2:
-            questionHeaderDisplay.text(question2);
+            questionHeaderDisplay.text(randomQuestions[1]);
             switchVoteButtons();
             answerOneDisplay.text(answer21);
             answerTwoDisplay.text(answer22);
@@ -422,7 +467,7 @@ function counterCheck() {
             decrement();
             break
         case 3:
-            questionHeaderDisplay.text(question3);
+            questionHeaderDisplay.text(randomQuestions[2]);
             switchVoteButtons();
             answerOneDisplay.text(answer31);
             answerTwoDisplay.text(answer32);
@@ -431,7 +476,7 @@ function counterCheck() {
             decrement();
             break
         case 4:
-            questionHeaderDisplay.text(question4);
+            questionHeaderDisplay.text(randomQuestions[3]);
             switchVoteButtons();
             answerOneDisplay.text(answer41);
             answerTwoDisplay.text(answer42);

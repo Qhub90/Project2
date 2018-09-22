@@ -108,6 +108,7 @@ var startGame = function (event) {
         gameName: gameTitle,
         player: "start"
     })
+    console.log(question1)
 };
 //function to capture players answers to question 1 and 2
 function answersToVoting() {
@@ -188,8 +189,7 @@ function pullQuestions() {
     database.ref(gameTitle).on("child_added", function (childSnapshot) {
         if (childSnapshot.val().question1) {
             question1 = childSnapshot.val().question1;
-            question1work = childSnapshot.val().question1;
-
+            console.log(childSnapshot.val().question1)
         }
         if (childSnapshot.val().question2) {
             question2 = childSnapshot.val().question2;
@@ -202,6 +202,7 @@ function pullQuestions() {
         }
     });
 };
+
 
 function pullAnswers() {
     database.ref(gameTitle +"/answers").on("child_added", function (childSnapshot) {
@@ -475,6 +476,7 @@ var getQuestion = function (event) {
 
         pushQuestions();
         pullQuestions();
+        localStorage.question1 = question1;
         questionDisplay();
     });
 }
@@ -493,7 +495,8 @@ function counterCheck() {
     switch (counter) {
         case 1:
             answersToVoting();
-            questionHeaderDisplay.text(randomQuestions[0]);
+            console.log(question1)
+            questionHeaderDisplay.text(localStorage.question1);
             answerOneDisplay.text(answer11);
             answerTwoDisplay.text(answer12);
             timeLeft = 10;
@@ -501,7 +504,7 @@ function counterCheck() {
             decrement();
             break
         case 2:
-            questionHeaderDisplay.text(randomQuestions[1]);
+            questionHeaderDisplay.text(question2);
             switchVoteButtons();
             answerOneDisplay.text(answer21);
             answerTwoDisplay.text(answer22);
@@ -510,7 +513,7 @@ function counterCheck() {
             decrement();
             break
         case 3:
-            questionHeaderDisplay.text(randomQuestions[2]);
+            questionHeaderDisplay.text(question3);
             switchVoteButtons();
             answerOneDisplay.text(answer31);
             answerTwoDisplay.text(answer32);
@@ -519,7 +522,7 @@ function counterCheck() {
             decrement();
             break
         case 4:
-            questionHeaderDisplay.text(randomQuestions[3]);
+            questionHeaderDisplay.text(question4);
             switchVoteButtons();
             answerOneDisplay.text(answer41);
             answerTwoDisplay.text(answer42);

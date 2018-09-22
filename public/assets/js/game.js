@@ -11,6 +11,8 @@ firebase.initializeApp(config);
 var database = firebase.database();
 // changing the page into the 'waiting for players' state
 // alerts for testing purposes
+
+// Variable World
 var $questionText = $("#question-text");
 var $submitQuestionBtn = $("#submitQuestion");
 var $setupBtn = $("#setup");
@@ -26,7 +28,7 @@ var $answerQuestionBtn = $("#answerQuestionBtn");
 var hostName;
 var playerName;
 var gameTitle;
-var timeLeft = 10;
+var timeLeft = 30;
 var counter = parseInt(localStorage.counter);
 localStorage.clear();
 localStorage.counter = 0;
@@ -59,6 +61,7 @@ var hostTotal = 0;
 var player1Total = 0;
 var player2Total = 0;
 var player3Total = 0;
+var modal = document.getElementById('victoryModal');
 
 function initWaiting(gameTitle) {
     $("#displayGameTitle").text('Game Title:' + gameTitle);
@@ -89,17 +92,18 @@ function initWaiting(gameTitle) {
         document.getElementById("startGameBtn").style.display = "none";
 
     }
-}
+};
 var revealHostInfo = function (event) {
     event.preventDefault;
     $("#hostInfoBlock").fadeIn();
     document.getElementById("playerInfoBlock").style.display = "none";
-}
+};
 var revealPlayerInfo = function (event) {
     event.preventDefault;
     $("#playerInfoBlock").fadeIn();
     document.getElementById("hostInfoBlock").style.display = "none";
-}
+};
+
 //this function changes the page from 'waiting for player' to 'game started' 
 // when host clicks start game. also starts the timer for players to submit answers
 var startGame = function (event) {
@@ -108,8 +112,9 @@ var startGame = function (event) {
         gameName: gameTitle,
         player: "start"
     })
-    console.log(question1)
+    // console.log(question1)
 };
+
 //function to capture players answers to question 1 and 2
 function answersToVoting() {
     $("#votingBlock").fadeIn();
@@ -134,17 +139,19 @@ var submitHost = function (event) {
     hideInitialInfo();
     // passing arguments just incase
     initWaiting(gameTitle, hostName);
-}
+};
+
+// New player submit to db
 var submitPlayer = function (event) {
     event.preventDefault;
     playerName = $("#playerName").val().trim();
     localStorage.name = playerName;
     gameTitle = $("#playerGameTitle").val().trim();
     database.ref(gameTitle).on("child_added", function (childSnapshot) {
-        console.log(childSnapshot.val().id);
+        // console.log(childSnapshot.val().id);
         if (!updated) {
             currentPlayers++;
-            console.log(currentPlayers);
+            // console.log(currentPlayers);
             function writePlayerData(userId, gameName) {
                 database.ref(gameName + "/" + userId).set({
                     gameName: gameTitle,
@@ -160,18 +167,6 @@ var submitPlayer = function (event) {
         }
     })
 
-
-
-    // sending new players data to firebase
-    // function writePlayerData(userId, gameName) {
-    //     database.ref(gameName + "/" + userId).set({
-    //         gameName: gameTitle,
-    //         player: playerName,
-    //         id: currentPlayers,
-
-    //     });
-    // }
-    // writePlayerData(playerName, gameTitle);
     hideInitialInfo();
     initWaiting(gameTitle, playerName);
 }
@@ -189,7 +184,7 @@ function pullQuestions() {
     database.ref(gameTitle).on("child_added", function (childSnapshot) {
         if (childSnapshot.val().question1) {
             question1 = childSnapshot.val().question1;
-            console.log(childSnapshot.val().question1)
+            // console.log(childSnapshot.val().question1)
         }
         if (childSnapshot.val().question2) {
             question2 = childSnapshot.val().question2;
@@ -205,36 +200,37 @@ function pullQuestions() {
 
 
 function pullAnswers() {
-    database.ref(gameTitle +"/answers").on("child_added", function (childSnapshot) {
+    database.ref(gameTitle + "/answers").on("child_added", function (childSnapshot) {
         if (answerPush === 0) {
-        answer11 = childSnapshot.val().answerOne,
-        answer12 = childSnapshot.val().answerTwo,
-        answerPush++
+            answer11 = childSnapshot.val().answerOne,
+                answer12 = childSnapshot.val().answerTwo,
+                answerPush++
         } else if (answerPush === 1) {
-        answer21 = childSnapshot.val().answerOne,
-        answer22 = childSnapshot.val().answerTwo,
-        answerPush++
+            answer21 = childSnapshot.val().answerOne,
+                answer22 = childSnapshot.val().answerTwo,
+                answerPush++
         } else if (answerPush === 2) {
-        answer31 = childSnapshot.val().answerOne,
-        answer32 = childSnapshot.val().answerTwo,
-        answerPush++ 
+            answer31 = childSnapshot.val().answerOne,
+                answer32 = childSnapshot.val().answerTwo,
+                answerPush++
         } else if (answerPush === 3) {
-        answer41 = childSnapshot.val().answerOne,
-        answer42 = childSnapshot.val().answerTwo,
-        answerPush++
+            answer41 = childSnapshot.val().answerOne,
+                answer42 = childSnapshot.val().answerTwo,
+                answerPush++
         } else if (answerPush === 4) {
-        console.log("answer 11:" + answer11);
-        console.log("answer 12:" + answer12);
-        console.log("answer 21:" + answer21)
-        console.log("answer 22:" + answer22);
-        console.log("answer 31:" + answer31);
-        console.log("answer 32" + answer32)
-        console.log("answer 41" + answer41);
-        console.log("answer 42" + answer42);
+            // console.log("answer 11:" + answer11);
+            // console.log("answer 12:" + answer12);
+            // console.log("answer 21:" + answer21)
+            // console.log("answer 22:" + answer22);
+            // console.log("answer 31:" + answer31);
+            // console.log("answer 32" + answer32)
+            // console.log("answer 41" + answer41);
+            // console.log("answer 42" + answer42);
         }
     });
 }
 
+// Displays questions from firebase db to all players
 function questionDisplay() {
     database.ref(gameTitle).on("child_added", function (childSnapshot) {
         if (childSnapshot.val().player === playerName || childSnapshot.val().player === hostName) {
@@ -255,7 +251,7 @@ function questionDisplay() {
     })
 }
 
-
+// hide html
 function hideInitialInfo() {
     document.getElementById("initialButtonsandInfo").style.display = "none";
 }
@@ -270,14 +266,17 @@ function decrement() {
     $("#voting-time-left").text("Time Left: " + timeLeft);
     if (timeLeft === 0) {
         if (!bird) {
-        database.ref(gameTitle).push({
-            gameName: gameTitle,
-            player: "bird"});
+            database.ref(gameTitle).push({
+                gameName: gameTitle,
+                player: "bird"
+            });
         }
         bird = true;
         timeUp();
     }
 }
+
+// Submits user inputted answers to firebase db
 var submitAnswers = function (event) {
     event.preventDefault;
     document.getElementById("submitAnswers").style.display = "none";
@@ -322,11 +321,13 @@ var submitAnswers = function (event) {
     pushAnswers();
 
     database.ref(gameTitle).on("child_added", function (childSnapshot) {
-    if (childSnapshot.val().player === "bird") {
-        pullAnswers();
-    }
-})
+        if (childSnapshot.val().player === "bird") {
+            pullAnswers();
+        }
+    })
 }
+
+// counts votes if first option is chosen and awards to corresponding player
 var voteAnswerOne = function (event) {
     event.preventDefault;
     var vote1 = 1;
@@ -337,24 +338,30 @@ var voteAnswerOne = function (event) {
     document.getElementById("answerTwoButton").style.display = "none";
     $("#voteOneSubDisplay").fadeIn();
     voteCheck++
-    if (voteCheck === 1) {database.ref(gameTitle + "/answers/question1/answerOne").push({
-        vote: "vote"
+    if (voteCheck === 1) {
+        database.ref(gameTitle + "/answers/question1/answerOne").push({
+            vote: "vote"
         })
     };
-    if (voteCheck === 2) {database.ref(gameTitle + "/answers/question2/answerOne").push({
-        vote: "vote"
+    if (voteCheck === 2) {
+        database.ref(gameTitle + "/answers/question2/answerOne").push({
+            vote: "vote"
         })
     };
-    if (voteCheck === 3) {database.ref(gameTitle + "/answers/question3/answerOne").push({
-        vote: "vote"
+    if (voteCheck === 3) {
+        database.ref(gameTitle + "/answers/question3/answerOne").push({
+            vote: "vote"
         })
     };
-    if (voteCheck === 4) {database.ref(gameTitle + "/answers/question4/answerOne").push({
-        vote: "vote"
+    if (voteCheck === 4) {
+        database.ref(gameTitle + "/answers/question4/answerOne").push({
+            vote: "vote"
         })
     };
 
 }
+
+// counts votes if second option is chosen and awards to corresponding player
 var voteAnswerTwo = function (event) {
     event.preventDefault;
     var vote1 = 0;
@@ -365,70 +372,88 @@ var voteAnswerTwo = function (event) {
     document.getElementById("answerTwoButton").style.display = "none";
     $("#voteTwoSubDisplay").fadeIn();
     voteCheck++;
-    if (voteCheck === 1) {database.ref(gameTitle + "/answers/question1/answerTwo").push({
-        vote: "vote"
+    if (voteCheck === 1) {
+        database.ref(gameTitle + "/answers/question1/answerTwo").push({
+            vote: "vote"
         })
-    
+
     };
-    if (voteCheck === 2) {database.ref(gameTitle + "/answers/question2/answerTwo").push({
-        vote: "vote"
+    if (voteCheck === 2) {
+        database.ref(gameTitle + "/answers/question2/answerTwo").push({
+            vote: "vote"
         })
-    
+
     };
-    if (voteCheck === 3) {database.ref(gameTitle + "/answers/question3/answerTwo").push({
-        vote: "vote"
+    if (voteCheck === 3) {
+        database.ref(gameTitle + "/answers/question3/answerTwo").push({
+            vote: "vote"
         })
-    
+
     };
-    if (voteCheck === 4) {database.ref(gameTitle + "/answers/question4/answerTwo").push({
-        vote: "vote"
+    if (voteCheck === 4) {
+        database.ref(gameTitle + "/answers/question4/answerTwo").push({
+            vote: "vote"
         })
-    
+
     };
 
 }
 
+// function for counting votes
 function voteCounter() {
-    var X=0;
-    if (X===0) {database.ref(gameTitle + "/answers/question1/answerOne").on("child_added", function () {
-        hostTotal+=1;
-    })
-    database.ref(gameTitle + "/answers/question1/answerTwo").on("child_added", function () {
-        player3Total+=1;
-    })
-    X+=1}
-    if (X===1) {database.ref(gameTitle + "/answers/question2/answerOne").on("child_added", function () {
-        hostTotal+=1;
-    })
-    database.ref(gameTitle + "/answers/question2/answerTwo").on("child_added", function () {
-        player1Total+=1;
-    })
-    X+=1}
-    if (X===2) {database.ref(gameTitle + "/answers/question3/answerOne").on("child_added", function () {
-        player1Total+=1;
-    })
-    database.ref(gameTitle + "/answers/question3/answerTwo").on("child_added", function () {
-        player2Total+=1;
-    })
-    X+=1}
-    if (X===3) {database.ref(gameTitle + "/answers/question4/answerOne").on("child_added", function () {
-        player2Total+=1;
-    })
-    database.ref(gameTitle + "/answers/question4/answerTwo").on("child_added", function () {
-        player3Total+=1;
-    })
-    X+=1}
+    var X = 0;
+    if (X === 0) {
+        database.ref(gameTitle + "/answers/question1/answerOne").on("child_added", function () {
+            hostTotal += 1;
+        })
+        database.ref(gameTitle + "/answers/question1/answerTwo").on("child_added", function () {
+            player3Total += 1;
+        })
+        X += 1
+    }
+    if (X === 1) {
+        database.ref(gameTitle + "/answers/question2/answerOne").on("child_added", function () {
+            hostTotal += 1;
+        })
+        database.ref(gameTitle + "/answers/question2/answerTwo").on("child_added", function () {
+            player1Total += 1;
+        })
+        X += 1
+    }
+    if (X === 2) {
+        database.ref(gameTitle + "/answers/question3/answerOne").on("child_added", function () {
+            player1Total += 1;
+        })
+        database.ref(gameTitle + "/answers/question3/answerTwo").on("child_added", function () {
+            player2Total += 1;
+        })
+        X += 1
+    }
+    if (X === 3) {
+        database.ref(gameTitle + "/answers/question4/answerOne").on("child_added", function () {
+            player2Total += 1;
+        })
+        database.ref(gameTitle + "/answers/question4/answerTwo").on("child_added", function () {
+            player3Total += 1;
+        })
+        X += 1
+    }
 
-    console.log("Host Score: " + hostTotal);
-    console.log("Player 1 Score: " + player1Total);
-    console.log("Player 2 Score: " + player2Total);
-    console.log("Player 3 Score: " + player3Total);
+    localStorage.setItem("Host", hostTotal);
+    localStorage.setItem("Player2", player1Total);
+    localStorage.setItem("Player3", player2Total);
+    localStorage.setItem("Player4", player3Total);
+
+    $("#victoryModal").fadeIn().html("<center><div class='modal-content'><h1 class='modalLogo'> Funny Guy! </h1><h2>Results</h2><h3>Host: " + hostTotal + " votes</h3><h3>Player 2: " + player1Total + " votes</h3><h3>Player 3: " + player2Total + " votes</h3><h3>Player 4: " + player3Total + " votes</h3></div></center>");
+
+    // Exit modal on window click
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            $("#victoryModal").fadeOut();
+        }
+    };
+
 };
-
-
-
-
-
 
 // function that triggers when timeLeft = 0. changes the counter value
 // in localstorage. depending on that value we cycle through questions
@@ -471,7 +496,7 @@ var getQuestion = function (event) {
             randomQuestions.push(questions[randomArray[q]].quest_text);
             // console.log(questions[randomArray[q]].quest_text);
         }
-        console.log("Our array: ", randomQuestions);
+        // console.log("Our array: ", randomQuestions);
         // function to assign random questions to each player
 
         pushQuestions();
@@ -495,7 +520,7 @@ function counterCheck() {
     switch (counter) {
         case 1:
             answersToVoting();
-            console.log(question1)
+            // console.log(question1)
             questionHeaderDisplay.text(localStorage.question1);
             answerOneDisplay.text(answer11);
             answerTwoDisplay.text(answer12);
@@ -531,8 +556,8 @@ function counterCheck() {
             decrement();
             break
         case 5:
-        voteCounter();
-        break
+            voteCounter();
+            break
     }
 }
 function switchVoteButtons() {
@@ -541,6 +566,8 @@ function switchVoteButtons() {
     document.getElementById("voteOneSubDisplay").style.display = "none";
     document.getElementById("voteTwoSubDisplay").style.display = "none";
 };
+
+
 
 //function to stop timer
 function stop() {
@@ -560,5 +587,3 @@ $playerBtn.on("click", revealPlayerInfo);
 $submitAnswers.on("click", submitAnswers);
 $answerOneVote.on("click", voteAnswerOne);
 $answerTwoVote.on("click", voteAnswerTwo);
-
-$answerQuestionBtn.on("click", getQuestion);
